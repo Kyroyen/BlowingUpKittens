@@ -7,6 +7,7 @@ const ScoresList = () => {
 
 
   useEffect(() => {
+    const updatedata = setInterval(() => {
       axiosInstance
       .get("scores")
       .then((response) => {
@@ -16,7 +17,10 @@ const ScoresList = () => {
         setError("Failed to fetch scores.");
         console.error("Error fetching scores:", error);
       });
+    }, 10000);
+    return () => clearInterval(updatedata);
   }, []);
+
 
 
   return (
@@ -26,13 +30,14 @@ const ScoresList = () => {
       <ul style={{ listStyleType: "none", padding: 0 }}>
         {scores.map((item, index) => (
           <li
-            key={index}
+            key={item.username}
             style={{
               margin: "10px 0",
               border: "1px solid #ddd",
               padding: "10px",
               borderRadius: "5px",
             }}
+            className="w-full"
           >
             <strong>Username:</strong> {item.username}
             <br />
