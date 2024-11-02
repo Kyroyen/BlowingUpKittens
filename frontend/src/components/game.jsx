@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startGame, drawCard, resetGame } from "../redux/gameSlice";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 const Game = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Game = () => {
   
   const postScore = async (username, score) => {
     try {
-      const response = await axios.post("http://localhost:3000/score", {
+      const response = await axiosInstance.post("score", {
         username,
         score,
       });

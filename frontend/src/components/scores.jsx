@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 const ScoresList = () => {
   const [scores, setScores] = useState([]);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/scores")
+      axiosInstance
+      .get("scores")
       .then((response) => {
         setScores(response.data);
       })
