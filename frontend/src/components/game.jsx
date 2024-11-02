@@ -1,36 +1,67 @@
 // src/components/Game.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startGame, drawCard, resetGame } from "../redux/gameSlice";
+import axios from "axios";
 
 const Game = () => {
   const dispatch = useDispatch();
-  const { deck, drawnCards, defuseAvailable, gameStatus } = useSelector(
-    (state) => state.game
-  );
+  const { deck, drawnCards, defuseAvailable, gameStatus, username } =
+    useSelector((state) => state.game);
 
-  const handleStartGame = () => dispatch(startGame());
+  const [inputUsername, setInputUsername] = useState("");
+  const handleStartGame = () => {
+    if (inputUsername.trim() === "") {
+      alert("Please enter a valid username.");
+      return;
+    }
+    dispatch(startGame({ username: inputUsername }));
+  };
   const handleDrawCard = () => dispatch(drawCard());
   const handleResetGame = () => dispatch(resetGame());
 
   useEffect(() => {
     if (gameStatus === "won") {
-      alert("Congratulations! You've won the game!");
+      alert(`Congratulations, ${username}! You've won the game!`);
+      postScore(username, drawnCards.length);
     } else if (gameStatus === "lost") {
-      alert("Game Over! You lost the game.");
+      alert(`Game Over, ${username}! You lost the game.`);
+      postScore(username, drawnCards.length);
     }
-  }, [gameStatus]); // Run this effect when gameStatus changes
+  }, [gameStatus, username]);
+
+  
+  const postScore = async (username, score) => {
+    try {
+      const response = await axios.post("http://localhost:3000/score", {
+        username,
+        score,
+      });
+      console.log("Score posted successfully:", response.data);
+    } catch (error) {
+      console.error("Error posting score:", error);
+    }
+  };
 
   return (
     <div className="text-center py-10">
       <h1 className="text-4xl font-bold mb-6">Single-Player Card Game</h1>
       {gameStatus === "idle" && (
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleStartGame}
-        >
-          Start Game
-        </button>
+        <>
+          <input
+            type="text"
+            placeholder="Enter your username"
+            value={inputUsername}
+            onChange={(e) => setInputUsername(e.target.value)}
+            className="border rounded px-2 py-1 mb-4"
+          />
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+            onClick={handleStartGame}
+          >
+            Start Game
+          </button>
+        </>
       )}
       {gameStatus === "playing" && (
         <>
