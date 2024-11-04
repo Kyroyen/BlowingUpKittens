@@ -5,46 +5,37 @@ const ScoresList = () => {
   const [scores, setScores] = useState([]);
   const [error, setError] = useState(null);
 
-
   useEffect(() => {
     const updatedata = setInterval(() => {
       axiosInstance
-      .get("scores")
-      .then((response) => {
-        setScores(response.data);
-      })
-      .catch((error) => {
-        setError("Failed to fetch scores.");
-        console.error("Error fetching scores:", error);
-      });
+        .get("scores")
+        .then((response) => {
+          setScores(response.data);
+        })
+        .catch((error) => {
+          setError("Failed to fetch scores.");
+          console.error("Error fetching scores:", error);
+        });
     }, 10000);
     return () => clearInterval(updatedata);
   }, []);
 
-
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Scores List</h2>
+    <div style={{ padding: "20px" }} className="h-100vh w-full px-9 mx-10">
+      <h2 className="text-center text-2xl py-8">Scores List</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <ul style={{ listStyleType: "none", padding: 0 }}>
+      <div>
         {scores.map((item, index) => (
-          <li
+          <div
             key={item.username}
-            style={{
-              margin: "10px 0",
-              border: "1px solid #ddd",
-              padding: "10px",
-              borderRadius: "5px",
-            }}
-            className="w-full"
+            className="w-full border-white border-2 m-2 p-2 rounded-lg bg-radial-gradient from-blue-500 to-purple-600"
           >
             <strong>Username:</strong> {item.username}
             <br />
             <strong>Score:</strong> {item.score}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

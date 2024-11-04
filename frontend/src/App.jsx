@@ -5,7 +5,7 @@ import ScoresList from "./components/scores";
 
 function App() {
   return (
-    <div className="App grid grid-cols-4 flex flex-row w-full h-full">
+    <div className="App grid grid-cols-4 flex-row w-full h-[100vh] bg-radial-gradient from-blue-200 to-purple-200">
       <div className="col-span-3 flex w-full items-start justify-center">
         <Game />
       </div>

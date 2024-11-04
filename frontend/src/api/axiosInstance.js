@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = "http://localhost:3000/";
+const apiUrl = "https://blowingupkittens.onrender.com/";
 console.log("API URL:", apiUrl);
 
 const axiosInstance = axios.create({
