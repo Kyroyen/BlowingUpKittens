@@ -9,8 +9,9 @@ app.use(cors());
 
 const Redis = require("ioredis");
 const redis = new Redis({
-  host: "127.0.0.1",
-  port: 6379,
+  host: "redis-18143.c251.east-us-mz.azure.redns.redis-cloud.com",
+  password: "Y0h8pyO7jWNrKnZ4MgTITRIMspxHMpvk",
+  port: "18143",
 });
 
 const SCORES_KEY = "userScores";
